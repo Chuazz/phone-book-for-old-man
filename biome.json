@@ -1,0 +1,68 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "linter": {
+    "rules": {
+      "correctness": {
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn",
+        "useExhaustiveDependencies": "warn"
+      },
+      "complexity": {
+        "noUselessTypeConstraint": "warn"
+      },
+      "style": {
+        "useImportType": "warn",
+        "noDefaultExport": "off",
+        "noImplicitBoolean": "warn",
+        "noNamespaceImport": "warn",
+        "noNonNullAssertion": "warn",
+        "noUnusedTemplateLiteral": "warn",
+        "noParameterAssign": "warn",
+        "useBlockStatements": "warn",
+        "useDefaultParameterLast": "warn",
+        "useExportType": "warn"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noConsoleLog": "warn",
+        "noExplicitAny": "off"
+      }
+    }
+  },
+  "formatter": {
+    "indentStyle": "tab",
+    "lineWidth": 80,
+    "attributePosition": "multiline"
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "bracketSameLine": false,
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "jsxQuoteStyle": "single",
+      "lineWidth": 80,
+      "attributePosition": "multiline"
+    }
+  },
+  "json": {
+    "formatter": {
+      "trailingCommas": "none",
+      "lineWidth": 80
+    }
+  },
+  "files": {
+    "include": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.json"
+    ],
+    "ignore": [
+      "**/*.min.js",
+      "node_module",
+      "android",
+      ".expo",
+      "dist"
+    ]
+  }
+}

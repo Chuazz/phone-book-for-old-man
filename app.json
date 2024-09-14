@@ -1,0 +1,55 @@
+{
+	"expo": {
+		"name": "phone-book-for-old-man",
+		"slug": "phone-book-for-old-man",
+		"version": "0.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icons/ic_app_logo.png",
+		"scheme": "phone-book-for-old-man",
+		"assetBundlePatterns": ["**/*"],
+		"userInterfaceStyle": "automatic",
+		"splash": {
+			"image": "./assets/images/img_splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"ios": {
+			"supportsTablet": true
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/icons/ic_app_logo.png",
+				"backgroundColor": "#ffffff"
+			},
+			"package": "com.chuazz.PhoneBookForOldMan",
+			"permissions": [
+				"android.permission.READ_EXTERNAL_STORAGE",
+				"android.permission.WRITE_EXTERNAL_STORAGE",
+				"android.permission.ACCESS_MEDIA_LOCATION",
+				"android.permission.READ_CONTACTS"
+			]
+		},
+		"plugins": [
+			[
+				"expo-media-library",
+				{
+					"photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
+					"savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
+					"isAccessMediaLocationEnabled": true
+				}
+			]
+		],
+		"experiments": {
+			"typedRoutes": true
+		},
+		"extra": {
+			"router": {
+				"origin": false
+			},
+			"eas": {
+				"projectId": "1faf7db3-fb9b-4b27-81f7-1491dc28c514"
+			}
+		},
+		"owner": "chuazz"
+	}
+}
