@@ -12,24 +12,8 @@ import { Navigation } from './components/navigation/app-navigation';
 import { Toast } from './components/ui/toast';
 import { theme } from './configs/theme';
 import { trans } from './utils';
-import RNShake from 'react-native-shake';
-import { useEffect } from 'react';
-import { useModal } from 'react-native-modalfy';
 
 const AppContent = () => {
-	const { openModal } = useModal();
-
-	useEffect(() => {
-		openModal('SettingModal');
-
-		const subscription = RNShake.addListener(() => {
-			openModal('SettingModal');
-		});
-
-		return () => {
-			subscription.remove();
-		};
-	}, [openModal]);
 	return (
 		<Navigation>
 			<AppBottomSheet />

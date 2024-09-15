@@ -1,4 +1,9 @@
 {
-    "search": "Tìm kiếm",
-    "close": "Đóng"
+  "search": "Tìm kiếm",
+  "close": "Đóng",
+  "display_name": "Tên hiển thị",
+  "save": "Lưu",
+  "phone_number": "Số điện thoại",
+  "font": "Phông chữ",
+  "update_success": "Cập nhập thành công"
 }

@@ -1,3 +1,5 @@
+import type { image } from '@/assets';
+import { app$ } from '@/stores';
 import { AntDesign } from '@expo/vector-icons';
 import { Show, observer, useObservable } from '@legendapp/state/react';
 import { Text, TextInput, View, useDripsyTheme } from 'dripsy';
@@ -9,13 +11,11 @@ import type {
 	TextInputFocusEventData,
 } from 'react-native';
 import { Button } from '../form/button';
-import type { image } from '@/assets';
-import { INPUT_HEIGHT } from '@/configs/theme';
 
 type InputProps = DripsyTextInputProps & {
 	errMessage?: string;
 	allowClear?: boolean;
-	type?: 'string' | 'password';
+	type?: 'string' | 'password' | 'number';
 };
 
 const Input = observer(
@@ -40,15 +40,15 @@ const Input = observer(
 		})();
 
 		const rightIcon: keyof typeof image = (() => {
-			if (type === 'password') {
-				if (hideInput$.get()) {
-					return 'EyeIcon';
-				}
+			// if (type === 'password') {
+			// 	if (hideInput$.get()) {
+			// 		return 'EyeIcon';
+			// 	}
 
-				return 'EyeSlashIcon';
-			}
+			// 	return 'EyeSlashIcon';
+			// }
 
-			return 'CloseOutlineIcon';
+			return 'CloseOutlineIcon' as keyof typeof image;
 		})();
 
 		const onFocus = (e: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -69,7 +69,13 @@ const Input = observer(
 		};
 
 		const onChangeText = (text: string) => {
-			props.onChangeText?.(text);
+			let result = text;
+
+			if (type === 'number') {
+				result = result.replace(/\D/g, '');
+			}
+
+			props.onChangeText?.(result);
 		};
 
 		const onPressRightIcon = () => {
@@ -88,18 +94,19 @@ const Input = observer(
 				<View
 					sx={{
 						borderColor,
-						height: INPUT_HEIGHT,
+						paddingVertical: 'md',
 						borderRadius: 'md',
 						backgroundColor: 'white',
 						borderWidth: 1,
 						paddingHorizontal: 16,
 						justifyContent: 'center',
+						gap: 'md',
 					}}
 				>
 					<Show if={() => focus$.get() && props.placeholder}>
 						<Text
 							sx={{
-								fontSize: 'sm',
+								fontSize: app$.font.get(),
 								fontWeight: 'semibold',
 								color: errMessage && !focus$.get() ? errColor : 'primary950',
 							}}
@@ -108,51 +115,52 @@ const Input = observer(
 						</Text>
 					</Show>
 
-					<TextInput
-						placeholderTextColor={
-							errMessage && props.value ? errColor : theme.colors.gray300
-						}
-						cursorColor={theme.colors.black}
-						secureTextEntry={type === 'password' && hideInput$.get()}
-						{...props}
-						ref={ref}
-						autoCapitalize='none'
-						autoComplete='off'
-						autoCorrect={false}
-						placeholder={focus$.get() ? '' : props.placeholder}
-						sx={{
-							height: focus$.get() ? 'auto' : 'full',
-							paddingVertical: 0,
-							paddingRight: 30,
-							fontWeight: 'semibold',
-							...props.sx,
-						}}
-						onFocus={onFocus}
-						onBlur={onBlur}
-						onChangeText={onChangeText}
-					/>
-
-					<Show
-						if={() =>
-							(props.value && allowClear && type === 'string') ||
-							(props.value && type === 'password') ||
-							(props.value && !blur$.get())
-						}
-					>
-						<Button
-							variant='transparent'
-							rightIcon={rightIcon}
+					<View sx={{ flexDirection: 'row', alignItems: 'center' }}>
+						<TextInput
+							placeholderTextColor={
+								errMessage && props.value ? errColor : theme.colors.gray300
+							}
+							cursorColor={theme.colors.black}
+							secureTextEntry={type === 'password' && hideInput$.get()}
+							{...props}
+							ref={ref}
+							autoCapitalize='none'
+							autoComplete='off'
+							autoCorrect={false}
+							placeholder={focus$.get() ? '' : props.placeholder}
 							sx={{
-								position: 'absolute',
-								right: -8,
-								top: -35,
+								height: focus$.get() ? 'auto' : 'full',
+								paddingVertical: 0,
+								paddingRight: 30,
+								fontWeight: 'semibold',
+								fontSize: app$.font.get(),
+								flex: 1,
+								...props.sx,
 							}}
-							iconSx={{
-								tintColor: theme.colors.gray500,
-							}}
-							onPress={onPressRightIcon}
+							onFocus={onFocus}
+							onBlur={onBlur}
+							onChangeText={onChangeText}
 						/>
-					</Show>
+
+						<Show
+							if={() =>
+								(props.value && allowClear && type === 'string') ||
+								(props.value && type === 'password') ||
+								(props.value && !blur$.get())
+							}
+						>
+							<Button
+								variant='transparent'
+								rightIcon={rightIcon}
+								iconSx={{
+									tintColor: theme.colors.gray500,
+									width: app$.font.get(),
+									height: app$.font.get(),
+								}}
+								onPress={onPressRightIcon}
+							/>
+						</Show>
+					</View>
 
 					<Show if={() => errMessage && !focus$.get()}>
 						<View
@@ -175,6 +183,7 @@ const Input = observer(
 						sx={{
 							color: errColor,
 							fontWeight: 'medium',
+							fontSize: app$.font.get(),
 						}}
 					>
 						{errMessage}

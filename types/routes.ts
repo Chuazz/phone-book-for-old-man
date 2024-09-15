@@ -1,27 +1,18 @@
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import type { Contact } from "react-native-contacts";
 
-type TabStackParamsList = {
-	MainTab: {
-		screen: 'home' | 'search';
-	};
+type AppStackParamsList = {
+  HomeScreen: undefined;
+  DetailScreen: {
+    contact: Contact;
+  };
 };
-
-type HomeTabStackParamsList = {
-	HomeScreen: undefined;
-};
-
-type SearchTabStackParamsList = {
-	SearchScreen: undefined;
-};
-
-type AppStackParamsList = TabStackParamsList;
 
 type RouteStackParamsList = AppStackParamsList;
 
 type ScreenProps<T extends keyof RouteStackParamsList> = NativeStackScreenProps<
-	RouteStackParamsList,
-	T
+  RouteStackParamsList,
+  T
 >;
 
 export type { RouteStackParamsList, AppStackParamsList, ScreenProps };
-export type { HomeTabStackParamsList, SearchTabStackParamsList };

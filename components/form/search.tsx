@@ -20,7 +20,7 @@ const Search = observer(({ onChange }: SearchProps) => {
 				paddingHorizontal: 'lg',
 				borderRadius: 'sm',
 				backgroundColor: 'gray100',
-				width: 'full',
+				flex: 1,
 			}}
 		>
 			<Image

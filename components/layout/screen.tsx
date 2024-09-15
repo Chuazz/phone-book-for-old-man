@@ -8,16 +8,18 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from '../ui/image';
 import type { RouteStackParamsList } from '@/types/routes';
 import type { image } from '@/assets';
+import { LoadingOverlay } from './loading-overlay';
 
 type ScreenProps = {
 	children: ReactNode;
 	sx?: SxProp;
+	loading?: boolean;
 	backgroundImage?: keyof typeof image;
-	navigation: NavigationProp<RouteStackParamsList>;
+	navigation?: NavigationProp<RouteStackParamsList>;
 };
 
 const Screen = observer(
-	({ children, sx, backgroundImage, navigation }: ScreenProps) => {
+	({ children, sx, backgroundImage, loading, navigation }: ScreenProps) => {
 		const insets = useSafeAreaInsets();
 
 		useEffect(() => {
@@ -57,6 +59,8 @@ const Screen = observer(
 					...sx,
 				}}
 			>
+				{loading && <LoadingOverlay />}
+
 				{backgroundImage && (
 					<Image
 						source={backgroundImage}

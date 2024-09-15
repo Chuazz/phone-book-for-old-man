@@ -1,5 +1,5 @@
 import { SCREEN_WIDTH } from '@/configs/theme';
-import { toast$ } from '@/stores';
+import { app$, toast$ } from '@/stores';
 import { Show, observer, useObserve } from '@legendapp/state/react';
 import { Text, useSx } from 'dripsy';
 import { useMemo } from 'react';
@@ -109,7 +109,7 @@ const Toast = observer(() => {
 							sx={{
 								color: 'white',
 								fontWeight: 'medium',
-								lineHeight: 20,
+								fontSize: app$.font.get(),
 							}}
 						>
 							{toast$.current.subLabel.get()}

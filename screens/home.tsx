@@ -1,69 +1,103 @@
+import { Button } from '@/components/form/button';
 import { Search } from '@/components/form/search';
 import { Screen } from '@/components/layout/screen';
 import { ScreenHeader } from '@/components/layout/screen-header';
-import { Image } from '@/components/ui/image';
+import { i18n } from '@/configs/i18n';
 import { app$ } from '@/stores';
 import type { ScreenProps } from '@/types';
-import { observer, useObservable } from '@legendapp/state/react';
+import { observer, useEffectOnce, useObservable } from '@legendapp/state/react';
 import { Text, View } from 'dripsy';
-import { useCallback, useEffect } from 'react';
+import _ from 'lodash';
 import { FlatList, PermissionsAndroid, TouchableOpacity } from 'react-native';
 import Contacts, { type Contact } from 'react-native-contacts';
+import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
+import { useModal } from 'react-native-modalfy';
 
-const HomeScreen = observer(({ navigation }: ScreenProps<'MainTab'>) => {
+const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 	const contacts$ = useObservable<Contact[]>([]);
-	const loading$ = useObservable<boolean>(false);
+	const { openModal } = useModal();
 
-	const getData = useCallback(async () => {
-		loading$.set(true);
+	const getData = async () => {
+		try {
+			const result = await Contacts.getAll();
 
-		const result = await Contacts.getAll();
+			contacts$.set(result);
+		} catch (_error) {}
+	};
 
-		loading$.set(false);
+	useEffectOnce(() => {
+		const checkPermission = async () => {
+			let granted = await PermissionsAndroid.request(
+				'android.permission.READ_CONTACTS',
+				{
+					title: i18n.t('info.app_name'),
+					message: i18n.t('permission.this_app_will_read_contacts'),
+					buttonPositive: i18n.t('permission.accept'),
+				},
+			);
 
-		contacts$.set([
-			...result,
-			...result,
-			...result,
-			...result,
-			...result,
-			...result,
-			...result,
-			...result,
-		]);
-	}, [contacts$.set, loading$.set]);
+			granted = await PermissionsAndroid.request(
+				'android.permission.WRITE_CONTACTS',
+				{
+					title: i18n.t('info.app_name'),
+					message: i18n.t('permission.this_app_will_write_contacts'),
+					buttonPositive: i18n.t('permission.accept'),
+				},
+			);
 
-	const checkPermission = useCallback(async () => {
-		const granted = await PermissionsAndroid.request(
-			'android.permission.READ_CONTACTS',
-			{
-				title: 'Contacts',
-				message: 'This app would like to view your contacts.',
-				buttonPositive: 'Please accept bare mortal',
-			},
-		);
+			if (granted === 'denied') {
+				return;
+			}
 
-		if (granted === 'denied') {
-			return;
-		}
+			getData();
+		};
 
-		getData();
-	}, [getData]);
-
-	useEffect(() => {
 		checkPermission();
-	}, [checkPermission]);
+	}, []);
 
 	return (
-		<Screen navigation={navigation}>
+		<Screen>
 			<FlatList
 				refreshing={false}
 				data={contacts$.get()}
 				contentContainerStyle={{ paddingBottom: 24 }}
 				showsVerticalScrollIndicator={false}
 				ListHeaderComponent={
-					<ScreenHeader sx={{ backgroundColor: 'white', paddingVertical: 12 }}>
-						<Search />
+					<ScreenHeader
+						sx={{
+							backgroundColor: 'white',
+							paddingVertical: 'md',
+							flexDirection: 'row',
+							paddingBottom: 'xl',
+						}}
+					>
+						<Search
+							onChange={(e) => {
+								if (e) {
+									contacts$.set((prev) => {
+										return prev.filter(
+											(t) =>
+												t.displayName.toLowerCase().includes(e) ||
+												!!t.phoneNumbers.find((t) => t.number.includes(e)),
+										);
+									});
+
+									return;
+								}
+
+								getData();
+							}}
+						/>
+
+						<Button
+							schema='primary'
+							rightIcon='SettingOutLineIcon'
+							iconSx={{
+								width: app$.font.get(),
+								height: app$.font.get(),
+							}}
+							onPress={() => openModal('SettingModal')}
+						/>
 					</ScreenHeader>
 				}
 				stickyHeaderIndices={[0]}
@@ -79,22 +113,55 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'MainTab'>) => {
 					/>
 				)}
 				renderItem={(data) => (
-					<TouchableOpacity>
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate('DetailScreen', {
+								contact: data.item,
+							})
+						}
+					>
 						<View
 							sx={{
-								flexDirection: 'row',
-								alignItems: 'center',
 								gap: 'lg',
 								px: 'md',
 							}}
 						>
-							<View sx={{ flex: 1 }}>
-								<Text style={{ fontSize: app$.font.get(), fontWeight: '900' }}>
-									{data.item.displayName}
-								</Text>
-								<Text style={{ fontSize: app$.font.get(), fontWeight: '900' }}>
-									{data.item.phoneNumbers.map((t) => t.number)}
-								</Text>
+							<Text style={{ fontSize: app$.font.get(), fontWeight: '900' }}>
+								{data.item.displayName}
+							</Text>
+
+							<View sx={{ gap: 'lg' }}>
+								{_.uniqBy(data.item.phoneNumbers, 'number').map(
+									(phoneNumber) => (
+										<View
+											key={phoneNumber.number}
+											sx={{
+												flexDirection: 'row',
+												alignItems: 'center',
+												justifyContent: 'space-between',
+											}}
+										>
+											<Text
+												style={{ fontSize: app$.font.get(), fontWeight: '900' }}
+											>
+												{phoneNumber.number}
+											</Text>
+
+											<Button
+												rightIcon='CallOutlineIcon'
+												iconSx={{
+													width: app$.font.get(),
+													height: app$.font.get(),
+												}}
+												onPress={() => {
+													RNImmediatePhoneCall.immediatePhoneCall(
+														phoneNumber.number,
+													);
+												}}
+											/>
+										</View>
+									),
+								)}
 							</View>
 						</View>
 					</TouchableOpacity>

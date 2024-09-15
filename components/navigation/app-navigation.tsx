@@ -16,7 +16,6 @@ const Navigation = observer(({ children }: { children: ReactNode }) => {
 				screenOptions={{
 					headerShown: false,
 				}}
-				initialRouteName='MainTab'
 			>
 				{Object.keys(appRoutes).map((key) => (
 					<Stack.Screen

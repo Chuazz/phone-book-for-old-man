@@ -140,6 +140,9 @@ const Button = ({
 		}
 
 		if (schema === 'black') {
+			button.backgroundColor = 'black';
+			text.color = 'white';
+
 			if (variant === 'transparent') {
 				text.color = 'black';
 			}
