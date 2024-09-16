@@ -74,6 +74,7 @@ const Button = ({
 			borderWidth: 2,
 			borderColor: 'transparent',
 			gap: 'xs',
+			...sx,
 		};
 
 		const text: SxProp = {
@@ -173,7 +174,7 @@ const Button = ({
 			text,
 			indicatorColor,
 		};
-	}, [schema, variant, rounded, size, disable, gray, primary]);
+	}, [schema, variant, rounded, size, disable, gray, primary, sx]);
 
 	const render = useMemo(() => {
 		if (children) {
@@ -240,6 +241,12 @@ const Button = ({
 				alignItems: 'flex-start',
 				justifyContent: 'flex-start',
 				width: fullWidth ? 'full' : 'auto',
+				position: styles.button.position,
+				top: styles.button.top,
+				bottom: styles.button.bottom,
+				left: styles.button.left,
+				right: styles.button.right,
+				zIndex: styles.button.zIndex,
 			}}
 		>
 			<Show if={loading}>
@@ -262,7 +269,6 @@ const Button = ({
 					width: fullWidth ? 'full' : 'auto',
 					opacity: disable ? 0.5 : 1,
 					...styles.button,
-					...sx,
 				})}
 				onPress={onPress}
 			>

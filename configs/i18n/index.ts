@@ -4,10 +4,12 @@ import type { KeyValueType, LanguageType, OptionType } from "@/types";
 import enCommon from "./locales/en/common.json";
 import enInfo from "./locales/en/info.json";
 import enPermission from "./locales/en/permission.json";
+import enValidation from "./locales/en/validation.json";
 
 import viCommon from "./locales/vi/common.json";
 import viInfo from "./locales/vi/info.json";
 import viPermission from "./locales/vi/permission.json";
+import viValidation from "./locales/vi/validation.json";
 
 const LANGUAGES: KeyValueType<LanguageType, OptionType<LanguageType>> = {
   vi: {
@@ -33,11 +35,13 @@ const translations: KeyValueType<LanguageType, unknown> = {
     common: enCommon,
     info: enInfo,
     permission: enPermission,
+    validation: enValidation,
   },
   vi: {
     common: viCommon,
     info: viInfo,
     permission: viPermission,
+    validation: viValidation,
   },
 };
 

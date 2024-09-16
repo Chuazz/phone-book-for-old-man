@@ -1,14 +1,16 @@
-import { TextInput, View, useDripsyTheme } from 'dripsy';
-import { Image } from '../ui/image';
 import { i18n } from '@/configs/i18n';
 import { app$ } from '@/stores';
 import { observer } from '@legendapp/state/react';
+import { View, useDripsyTheme } from 'dripsy';
+import { Image } from '../ui/image';
+import { Input } from './input';
 
 type SearchProps = {
+	value?: string;
 	onChange: (_value: string) => void;
 };
 
-const Search = observer(({ onChange }: SearchProps) => {
+const Search = observer(({ value, onChange }: SearchProps) => {
 	const { theme } = useDripsyTheme();
 
 	return (
@@ -32,13 +34,16 @@ const Search = observer(({ onChange }: SearchProps) => {
 				}}
 			/>
 
-			<TextInput
-				placeholder={i18n.t('common.search')}
-				placeholderTextColor={theme.colors.gray600}
+			<Input
+				value={value}
 				sx={{
-					flex: 1,
 					paddingVertical: 'sm',
 					fontSize: app$.font.get(),
+				}}
+				containerSx={{
+					flex: 1,
+					backgroundColor: 'transparent',
+					borderWidth: 0,
 				}}
 				onChangeText={onChange}
 			/>

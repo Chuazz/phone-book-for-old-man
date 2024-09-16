@@ -4,7 +4,7 @@ import type { Contact } from "react-native-contacts";
 type AppStackParamsList = {
   HomeScreen: undefined;
   DetailScreen: {
-    contact: Contact;
+    contact?: Contact;
   };
 };
 

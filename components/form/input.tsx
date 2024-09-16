@@ -2,7 +2,7 @@ import type { image } from '@/assets';
 import { app$ } from '@/stores';
 import { AntDesign } from '@expo/vector-icons';
 import { Show, observer, useObservable } from '@legendapp/state/react';
-import { Text, TextInput, View, useDripsyTheme } from 'dripsy';
+import { type SxProp, Text, TextInput, View, useDripsyTheme } from 'dripsy';
 import type { DripsyTextInputProps } from 'dripsy/build/core/components/TextInput';
 import { useRef } from 'react';
 import type {
@@ -15,17 +15,25 @@ import { Button } from '../form/button';
 type InputProps = DripsyTextInputProps & {
 	errMessage?: string;
 	allowClear?: boolean;
+	containerSx?: SxProp;
 	type?: 'string' | 'password' | 'number';
 };
 
 const Input = observer(
-	({ errMessage, type = 'string', allowClear, ...props }: InputProps) => {
+	({
+		errMessage,
+		containerSx,
+		type = 'string',
+		allowClear,
+		...props
+	}: InputProps) => {
 		const focus$ = useObservable(props.autoFocus || !!props.value);
 		const blur$ = useObservable(true);
 		const hideInput$ = useObservable(true);
 		const { theme } = useDripsyTheme();
 		const ref = useRef<RNTextInput>(null);
 		const errColor = theme.colors.red700;
+		const containerProps: SxProp = { ...containerSx };
 
 		const borderColor = (() => {
 			if (focus$.get()) {
@@ -90,7 +98,7 @@ const Input = observer(
 		};
 
 		return (
-			<View sx={{ gap: 'xs' }}>
+			<View sx={{ gap: 'xs', flex: containerProps.flex }}>
 				<View
 					sx={{
 						borderColor,
@@ -101,6 +109,7 @@ const Input = observer(
 						paddingHorizontal: 16,
 						justifyContent: 'center',
 						gap: 'md',
+						...containerSx,
 					}}
 				>
 					<Show if={() => focus$.get() && props.placeholder}>
