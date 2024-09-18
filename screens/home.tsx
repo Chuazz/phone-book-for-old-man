@@ -6,27 +6,45 @@ import { i18n } from '@/configs/i18n';
 import { SCREEN_WIDTH } from '@/configs/theme';
 import { app$ } from '@/stores';
 import type { ScreenProps } from '@/types';
-import { observer, useEffectOnce, useObservable } from '@legendapp/state/react';
+import { observer, useObservable } from '@legendapp/state/react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, View } from 'dripsy';
 import _ from 'lodash';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { FlatList, PermissionsAndroid, TouchableOpacity } from 'react-native';
 import Contacts, { type Contact } from 'react-native-contacts';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
-import { useModal } from 'react-native-modalfy';
 
 const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 	const contacts$ = useObservable<Contact[]>([]);
-	const { openModal } = useModal();
+	const allContacts$ = useObservable<Contact[][]>([]);
 	const runOnce = useRef(false);
 	const keywords = useObservable('');
+	const page$ = useObservable(0);
 
 	const getData = async () => {
 		try {
 			const result = (await Contacts.getAll()).filter(
 				(t) => t.phoneNumbers.length,
 			);
+
+			const limit = 10;
+
+			if (result.length > limit) {
+				const page = Math.ceil(result.length / limit);
+
+				for (let index = 0; index < page; index++) {
+					allContacts$[index]?.set(result.slice(0, limit));
+
+					result.splice(0, limit);
+				}
+
+				if (allContacts$[0]) {
+					contacts$.set(allContacts$[0]?.get());
+				}
+
+				return;
+			}
 
 			contacts$.set(result);
 		} catch (_error) {}
@@ -58,10 +76,6 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 		getData();
 	};
 
-	useEffectOnce(() => {
-		checkPermission();
-	}, []);
-
 	useFocusEffect(() => {
 		if (runOnce.current) {
 			return;
@@ -80,6 +94,15 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 				contentContainerStyle={{ paddingBottom: 120 }}
 				showsVerticalScrollIndicator={false}
 				keyboardShouldPersistTaps='handled'
+				onEndReached={() => {
+					if (page$.get() < allContacts$.length - 1) {
+						page$.set((prev) => prev + 1);
+
+						contacts$.set((prev) =>
+							prev.concat(allContacts$?.[page$.get()]?.get() || []),
+						);
+					}
+				}}
 				getItemLayout={(_item, index) => ({
 					index,
 					length: SCREEN_WIDTH,
@@ -114,16 +137,6 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 								getData();
 							}}
 						/>
-
-						<Button
-							schema='primary'
-							rightIcon='SettingOutLineIcon'
-							iconSx={{
-								width: app$.font.get(),
-								height: app$.font.get(),
-							}}
-							onPress={() => openModal('SettingModal')}
-						/>
 					</ScreenHeader>
 				}
 				stickyHeaderIndices={[0]}
@@ -152,7 +165,7 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 								px: 'md',
 							}}
 						>
-							<Text sx={{ fontSize: app$.font.get(), fontWeight: 'black' }}>
+							<Text sx={{ fontSize: 55, fontWeight: 'black' }}>
 								{data.item.displayName}
 							</Text>
 

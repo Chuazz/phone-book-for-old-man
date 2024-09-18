@@ -6,7 +6,8 @@
     "start": "expo start",
     "dev:mobile": "expo run:android",
     "ios": "expo run:ios",
-    "android": "expo run:android"
+    "android": "expo run:android",
+    "android:preview": "eas build --profile preview --platform android"
   },
   "dependencies": {
     "@biomejs/biome": "1.8.3",
