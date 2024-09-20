@@ -3,10 +3,14 @@
   "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --private-key ./key/privatekey.pem",
     "dev:mobile": "expo run:android",
     "ios": "expo run:ios",
-    "android": "expo run:android"
+    "android": "expo run:android",
+    "start:packager": "yarn expo start",
+    "android:build": "rm -f ./builds/android.managed.apk; eas build --profile=preview -p android --output=./builds/android.managed.apk --local",
+    "android:install": "adb install ./builds/android.managed.apk",
+    "publish": "./publish.sh"
   },
   "dependencies": {
     "@biomejs/biome": "1.8.3",

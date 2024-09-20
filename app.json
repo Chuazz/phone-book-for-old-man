@@ -40,6 +40,18 @@
 				"projectId": "1faf7db3-fb9b-4b27-81f7-1491dc28c514"
 			}
 		},
-		"owner": "chuazz"
+		"owner": "chuazz",
+		"runtimeVersion": "1.0.0",
+		"updates": {
+			"url": "http://localhost:3000/api/manifest?project=phone-book-for-old-man&channel=staging",
+			"enabled": true,
+			"checkAutomatically": "ON_ERROR_RECOVERY",
+			"fallbackToCacheTimeout": 0,
+			"codeSigningCertificate": "./key/certificate.pem",
+			"codeSigningMetadata": {
+				"keyid": "main",
+				"alg": "rsa-v1_5-sha256"
+			}
+		}
 	}
 }
