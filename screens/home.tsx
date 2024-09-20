@@ -10,10 +10,15 @@ import { observer, useObservable } from '@legendapp/state/react';
 import { useFocusEffect } from '@react-navigation/native';
 import { Text, View } from 'dripsy';
 import _ from 'lodash';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { FlatList, PermissionsAndroid, TouchableOpacity } from 'react-native';
 import Contacts, { type Contact } from 'react-native-contacts';
 import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
+import { checkForUpdateAsync, fetchUpdateAsync } from 'expo-updates';
+import { LoadingOverlay } from '@/components/layout/loading-overlay';
+
+const wait = async (seconds: number) =>
+	new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 
 const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 	const contacts$ = useObservable<Contact[]>([]);
@@ -21,6 +26,7 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 	const runOnce = useRef(false);
 	const keywords = useObservable('');
 	const page$ = useObservable(0);
+	const update$ = useObservable('');
 
 	const getData = async () => {
 		try {
@@ -76,6 +82,50 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 		getData();
 	};
 
+	const onUpdate = async () => {
+		try {
+			update$.set('Checking for updates...');
+
+			await wait(2);
+
+			const upd = await checkForUpdateAsync();
+
+			update$.set(`update Available? ${upd.isAvailable} - JSON.stringify(upd)`);
+
+			await wait(2);
+
+			if (upd.isAvailable) {
+				update$.set('About to Fetch... ');
+
+				await wait(2);
+
+				try {
+					const fetched = await fetchUpdateAsync();
+					update$.set(
+						`Update fetched? ${fetched.isNew} - ${JSON.stringify(fetched)}`,
+					);
+
+					await wait(2);
+
+					update$.set('');
+				} catch (e) {
+					update$.set(`Error fetching update:  + ${e}`);
+
+					await wait(2);
+
+					update$.set('');
+				}
+			} else {
+			}
+		} catch (e) {
+			update$.set(`Error else:  + ${e}`);
+
+			await wait(2);
+
+			update$.set('');
+		}
+	};
+
 	useFocusEffect(() => {
 		if (runOnce.current) {
 			return;
@@ -88,6 +138,8 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 
 	return (
 		<Screen>
+			{update$.get() && <LoadingOverlay text={update$.get()} />}
+
 			<FlatList
 				refreshing={false}
 				data={contacts$.get()}
@@ -147,7 +199,7 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 							height: 1,
 							width: '100%',
 							backgroundColor: 'gray200',
-							my: 'xl',
+							my: 'md',
 						}}
 					/>
 				)}
@@ -165,7 +217,7 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 								px: 'md',
 							}}
 						>
-							<Text sx={{ fontSize: 55, fontWeight: 'black' }}>
+							<Text sx={{ fontSize: 20, fontWeight: 'black' }}>
 								{data.item.displayName}
 							</Text>
 
@@ -213,28 +265,44 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 				}}
 			/>
 
-			<Button
-				rightIcon='CloseOutlineIcon'
-				schema='black'
+			<View
 				sx={{
 					position: 'absolute',
 					bottom: 12,
 					right: 12,
 					zIndex: 999,
+					gap: 'md',
+					p: 'md',
+					backgroundColor: 'primary500',
+					borderRadius: 'full',
 				}}
-				iconSx={{
-					width: app$.font.get(),
-					height: app$.font.get(),
-					transform: [
-						{
-							rotate: '45deg',
-						},
-					],
-				}}
-				onPress={() => {
-					navigation.navigate('DetailScreen', { contact: undefined });
-				}}
-			/>
+			>
+				<Button
+					rightIcon='FileCloudIcon'
+					schema='black'
+					iconSx={{
+						width: app$.font.get(),
+						height: app$.font.get(),
+					}}
+					onPress={onUpdate}
+				/>
+				<Button
+					rightIcon='CloseOutlineIcon'
+					schema='black'
+					iconSx={{
+						width: app$.font.get(),
+						height: app$.font.get(),
+						transform: [
+							{
+								rotate: '45deg',
+							},
+						],
+					}}
+					onPress={() => {
+						navigation.navigate('DetailScreen', { contact: undefined });
+					}}
+				/>
+			</View>
 		</Screen>
 	);
 });

@@ -1,4 +1,3 @@
-import { i18n } from '@/configs/i18n';
 import { app$ } from '@/stores';
 import { observer } from '@legendapp/state/react';
 import { View, useDripsyTheme } from 'dripsy';

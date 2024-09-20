@@ -1,7 +1,7 @@
 import { ActivityIndicator, View } from 'dripsy';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 
-const LoadingOverlay = () => {
+const LoadingOverlay = ({ text = 'Loading' }: { text?: string }) => {
 	return (
 		<View
 			sx={{
@@ -12,7 +12,20 @@ const LoadingOverlay = () => {
 				zIndex: 9999,
 			}}
 		>
-			<ActivityIndicator color='primary700' size='large' />
+			<View
+				sx={{
+					flexDirection: 'row',
+					alignItems: 'center',
+					gap: 'sm',
+				}}
+			>
+				<ActivityIndicator
+					color='primary700'
+					size='large'
+				/>
+
+				<Text>{text}</Text>
+			</View>
 		</View>
 	);
 };

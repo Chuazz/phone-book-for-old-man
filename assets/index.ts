@@ -5,6 +5,7 @@ import SettingOutLineIcon from "./icons/ic_setting_outline.png";
 import CloseOutlineIcon from "./icons/ic_close_outline.png";
 import PenOutlineIcon from "./icons/ic_pen_outline.png";
 import CallOutlineIcon from "./icons/ic_call_outline.png";
+import FileCloudIcon from "./icons/ic_file_cloud_outline.png";
 
 import PublicSansBlack from "./fonts/PublicSans-Black.ttf";
 import PublicSansBold from "./fonts/PublicSans-Bold.ttf";
@@ -21,6 +22,7 @@ const image = {
   CloseOutlineIcon,
   PenOutlineIcon,
   CallOutlineIcon,
+  FileCloudIcon,
 };
 
 const font = {
