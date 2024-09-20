@@ -11,7 +11,6 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { ScrollView } from 'react-native';
 import type { Contact } from 'react-native-contacts';
 import Contacts from 'react-native-contacts';
-import { useModal } from 'react-native-modalfy';
 import { array, object, string } from 'zod';
 
 const DetailScreen = observer(
@@ -54,7 +53,6 @@ const DetailScreen = observer(
 			resolver: zodResolver(schema),
 		});
 
-		const { openModal } = useModal();
 		const loading$ = useObservable(false);
 		const { fields, append } = useFieldArray({ control, name: 'phoneNumbers' });
 
@@ -110,17 +108,6 @@ const DetailScreen = observer(
 							leftIcon='ArrowLeftOutlineIcon'
 							onPress={() => navigation.goBack()}
 						/>
-
-						<Button
-							iconSx={{
-								width: app$.font.get(),
-								height: app$.font.get(),
-							}}
-							leftIcon='SettingOutLineIcon'
-							onPress={() => {
-								openModal('SettingModal');
-							}}
-						/>
 					</ScreenHeader>
 
 					<Controller
@@ -130,6 +117,11 @@ const DetailScreen = observer(
 							<Input
 								placeholder={i18n.t('common.display_name')}
 								value={field.value}
+								multiline={true}
+								sx={{
+									fontWeight: '900',
+									fontSize: 40,
+								}}
 								containerSx={{
 									mt: 90,
 								}}
