@@ -1,5 +1,5 @@
-import { ActivityIndicator, View } from 'dripsy';
-import { StyleSheet, Text } from 'react-native';
+import { ActivityIndicator, Text, View } from 'dripsy';
+import { StyleSheet } from 'react-native';
 
 const LoadingOverlay = ({ text = 'Loading' }: { text?: string }) => {
 	return (
@@ -8,23 +8,24 @@ const LoadingOverlay = ({ text = 'Loading' }: { text?: string }) => {
 				...StyleSheet.absoluteFillObject,
 				justifyContent: 'center',
 				alignItems: 'center',
-				backgroundColor: 'blackAlpha300',
+				backgroundColor: 'blackAlpha400',
 				zIndex: 9999,
 			}}
 		>
 			<View
 				sx={{
-					flexDirection: 'row',
 					alignItems: 'center',
 					gap: 'sm',
+					px: 'md',
+					justifyContent: 'center',
 				}}
 			>
 				<ActivityIndicator
-					color='primary700'
+					color='white'
 					size='large'
 				/>
 
-				<Text>{text}</Text>
+				<Text sx={{ color: 'white', fontSize: 'lg' }}>{text}</Text>
 			</View>
 		</View>
 	);

@@ -13,7 +13,6 @@ import _ from 'lodash';
 import { useRef } from 'react';
 import { FlatList, PermissionsAndroid, TouchableOpacity } from 'react-native';
 import Contacts, { type Contact } from 'react-native-contacts';
-import RNImmediatePhoneCall from 'react-native-immediate-phone-call';
 import { checkForUpdateAsync, fetchUpdateAsync } from 'expo-updates';
 import { LoadingOverlay } from '@/components/layout/loading-overlay';
 
@@ -21,7 +20,20 @@ const wait = async (seconds: number) =>
 	new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 
 const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
-	const contacts$ = useObservable<Contact[]>([]);
+	const contacts$ = useObservable<Contact[]>(
+		__DEV__
+			? [
+					{
+						displayName: 'hendson',
+						phoneNumbers: [{ number: '123213123123', label: 'home' }],
+					},
+					{
+						displayName: 'jaden',
+						phoneNumbers: [{ number: '238947823764', label: 'home' }],
+					},
+				]
+			: [],
+	);
 	const allContacts$ = useObservable<Contact[][]>([]);
 	const runOnce = useRef(false);
 	const keywords = useObservable('');
@@ -132,6 +144,7 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 		}
 
 		checkPermission();
+
 		keywords.set('');
 		runOnce.current = true;
 	});
@@ -241,18 +254,18 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 												{phoneNumber.number}
 											</Text>
 
-											<Button
+											{/* <Button
 												rightIcon='CallOutlineIcon'
 												iconSx={{
 													width: app$.font.get(),
 													height: app$.font.get(),
 												}}
 												onPress={() => {
-													RNImmediatePhoneCall.immediatePhoneCall(
-														phoneNumber.number,
-													);
+													// RNImmediatePhoneCall.immediatePhoneCall(
+													// 	phoneNumber.number,
+													// );
 												}}
-											/>
+											/> */}
 										</View>
 									),
 								)}

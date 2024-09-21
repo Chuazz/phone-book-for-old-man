@@ -44,3 +44,6 @@ android
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+# Build
+builds
