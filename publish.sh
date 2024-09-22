@@ -9,6 +9,7 @@ FOLDER="/${RUNTIMEVERSION}"
 BUILDFOLDER=".${FOLDER}"
 
 rm -rf $BUILDFOLDER
+rm -rf ./.expo
 rm -f $BUILDFOLDER.zip
 mkdir $BUILDFOLDER
 

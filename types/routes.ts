@@ -6,6 +6,9 @@ type AppStackParamsList = {
   DetailScreen: {
     contact?: Contact;
   };
+  UpdateLogScreen: {
+    updates: string[];
+  };
 };
 
 type RouteStackParamsList = AppStackParamsList;

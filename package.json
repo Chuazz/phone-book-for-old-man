@@ -1,10 +1,8 @@
 {
   "name": "phone-book-for-old-man",
-  "version": "1.0.0",
   "main": "expo/AppEntry.js",
   "scripts": {
     "start": "expo start --private-key-path ./code-signing/privatekey.pem",
-    "dev:mobile": "expo run:android",
     "ios": "expo run:ios",
     "android": "expo run:android",
     "android:eas-build": "rm -f ./builds/android.managed.apk; eas build --profile=preview -p android --output=./builds/android.managed.apk --local",
@@ -38,6 +36,7 @@
     "expo-font": "~12.0.9",
     "expo-image": "~1.12.13",
     "expo-localization": "~15.0.3",
+    "expo-manifests": "^0.14.3",
     "expo-media-library": "~16.0.5",
     "expo-splash-screen": "~0.27.5",
     "expo-status-bar": "~1.12.1",
@@ -71,5 +70,6 @@
     "typescript": "~5.3.3"
   },
   "private": true,
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@3.6.4",
+  "version": "1.0.0"
 }

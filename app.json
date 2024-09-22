@@ -1,67 +1,69 @@
 {
-	"expo": {
-		"name": "Danh bạ nè",
-		"slug": "phone-book-for-old-man",
-		"version": "0.0.0",
-		"orientation": "portrait",
-		"icon": "./assets/icons/ic_app_logo.png",
-		"scheme": "phone-book-for-old-man",
-		"assetBundlePatterns": ["**/*"],
-		"userInterfaceStyle": "automatic",
-		"splash": {
-			"image": "./assets/images/img_splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"ios": {
-			"supportsTablet": true
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/icons/ic_app_logo.png",
-				"backgroundColor": "#ffffff"
-			},
-			"package": "com.chuazz.PhoneBookForOldMan",
-			"permissions": [
-				"android.permission.READ_EXTERNAL_STORAGE",
-				"android.permission.WRITE_EXTERNAL_STORAGE",
-				"android.permission.ACCESS_MEDIA_LOCATION",
-				"android.permission.READ_CONTACTS",
-				"android.permission.WRITE_CONTACTS",
-				"android.permission.CALL_PHONE"
-			]
-		},
-		"plugins": [
-			[
-				"expo-build-properties",
-				{
-					"android": {
-						"usesCleartextTraffic": true
-					},
-					"ios": {}
-				}
-			]
-		],
-		"extra": {
-			"router": {
-				"origin": false
-			},
-			"eas": {
-				"projectId": "1faf7db3-fb9b-4b27-81f7-1491dc28c514"
-			}
-		},
-		"owner": "chuazz",
-		"runtimeVersion": "0.0.2",
-		"updates": {
-			"url": "http://localhost:3000/api/manifest?project=phone-book-for-old-man&channel=staging",
-			"enabled": true,
-			"checkAutomatically": "ON_ERROR_RECOVERY",
-			"fallbackToCacheTimeout": 0,
-			"codeSigningCertificate": "./code-signing/certificate.pem",
-			"codeSigningMetadata": {
-				"keyid": "main",
-				"alg": "rsa-v1_5-sha256"
-			}
-		}
-	}
+  "expo": {
+    "name": "Danh bạ nè",
+    "slug": "phone-book-for-old-man",
+    "orientation": "portrait",
+    "icon": "./assets/icons/ic_app_logo.png",
+    "scheme": "phone-book-for-old-man",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/img_splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chuazz.PhoneBookForOldMan"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icons/ic_app_logo.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.chuazz.PhoneBookForOldMan",
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.READ_CONTACTS",
+        "android.permission.WRITE_CONTACTS",
+        "android.permission.CALL_PHONE"
+      ]
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          },
+          "ios": {}
+        }
+      ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "1faf7db3-fb9b-4b27-81f7-1491dc28c514"
+      }
+    },
+    "owner": "chuazz",
+    "runtimeVersion": "0.0.3",
+    "updates": {
+      "url": "http://localhost:3000/api/manifest?project=phone-book-for-old-man&channel=staging",
+      "enabled": true,
+      "checkAutomatically": "ON_ERROR_RECOVERY",
+      "fallbackToCacheTimeout": 0,
+      "codeSigningCertificate": "./code-signing/certificate.pem",
+      "codeSigningMetadata": {
+        "keyid": "main",
+        "alg": "rsa-v1_5-sha256"
+      }
+    }
+  }
 }

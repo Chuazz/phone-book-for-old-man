@@ -4645,7 +4645,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-manifests@npm:~0.14.0":
+"expo-manifests@npm:^0.14.3, expo-manifests@npm:~0.14.0":
   version: 0.14.3
   resolution: "expo-manifests@npm:0.14.3"
   dependencies:
@@ -7825,6 +7825,7 @@ __metadata:
     expo-font: ~12.0.9
     expo-image: ~1.12.13
     expo-localization: ~15.0.3
+    expo-manifests: ^0.14.3
     expo-media-library: ~16.0.5
     expo-splash-screen: ~0.27.5
     expo-status-bar: ~1.12.1

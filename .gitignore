@@ -32,6 +32,9 @@ yarn-error.log*
 # Android
 android
 
+# Ios
+ios
+
 # Expo
 .expo
 %ProgramData%

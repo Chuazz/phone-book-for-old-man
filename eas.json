@@ -9,7 +9,10 @@
 			"distribution": "internal"
 		},
 		"preview": {
-			"distribution": "internal"
+			"distribution": "internal",
+			"env": {
+				"EAS_LOCAL_BUILD_SKIP_CLEANUP": "1"
+			}
 		},
 		"production": {
 			"autoIncrement": true

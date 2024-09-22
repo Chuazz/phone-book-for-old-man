@@ -1,7 +1,7 @@
 import { bottomSheet$ } from '@/stores/bottom-sheet';
 import { observer, useEffectOnce } from '@legendapp/state/react';
 import type { NavigationProp } from '@react-navigation/native';
-import { type SxProp, View } from 'dripsy';
+import { type SxProp, Text, View } from 'dripsy';
 import { type ReactNode, useEffect } from 'react';
 import { BackHandler, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,6 +9,7 @@ import { Image } from '../ui/image';
 import type { RouteStackParamsList } from '@/types/routes';
 import type { image } from '@/assets';
 import { LoadingOverlay } from './loading-overlay';
+import Constants from 'expo-constants';
 
 type ScreenProps = {
 	children: ReactNode;
@@ -73,6 +74,21 @@ const Screen = observer(
 				)}
 
 				{children}
+
+				<View
+					sx={{
+						position: 'absolute',
+						backgroundColor: 'blackAlpha500',
+						bottom: 0,
+						left: 0,
+						paddingVertical: 4,
+						paddingHorizontal: 12,
+					}}
+				>
+					<Text sx={{ color: 'white' }}>
+						{Constants.manifest2?.runtimeVersion}
+					</Text>
+				</View>
 			</View>
 		);
 	},

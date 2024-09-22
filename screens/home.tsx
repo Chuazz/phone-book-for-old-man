@@ -16,16 +16,13 @@ import Contacts, { type Contact } from 'react-native-contacts';
 import { checkForUpdateAsync, fetchUpdateAsync } from 'expo-updates';
 import { LoadingOverlay } from '@/components/layout/loading-overlay';
 
-const wait = async (seconds: number) =>
-	new Promise((resolve) => setTimeout(resolve, seconds * 1000));
-
 const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 	const contacts$ = useObservable<Contact[]>([]);
 	const allContacts$ = useObservable<Contact[][]>([]);
 	const runOnce = useRef(false);
 	const keywords = useObservable('');
 	const page$ = useObservable(0);
-	const update$ = useObservable('');
+	const update$ = useObservable<string[]>([]);
 
 	const getData = async () => {
 		try {
@@ -83,49 +80,37 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 
 	const onUpdate = async () => {
 		try {
-			update$.set('Checking for updates...');
-
-			await wait(2);
+			update$.push('Checking for updates...');
 
 			const upd = await checkForUpdateAsync();
 
-			update$.set(
+			update$.push(
 				`update Available? ${upd.isAvailable} - ${JSON.stringify(upd, null, 2)}`,
 			);
 
-			await wait(2);
-
 			if (upd.isAvailable) {
-				update$.set('About to Fetch... ');
+				update$.push('About to Fetch... ');
 
-				await wait(2);
+				const fetched = await fetchUpdateAsync();
 
-				try {
-					const fetched = await fetchUpdateAsync();
-
-					update$.set(
-						`Update fetched? ${fetched.isNew} - ${JSON.stringify(fetched, null, 2)}`,
-					);
-
-					await wait(2);
-
-					update$.set('');
-				} catch (e) {
-					update$.set(
-						`Error fetching update:  + ${JSON.stringify(e, null, 2)}`,
-					);
-
-					await wait(2);
-
-					update$.set('');
-				}
+				update$.push(
+					`Update fetched? ${fetched.isNew} - ${JSON.stringify(fetched, null, 2)}`,
+				);
 			}
+
+			navigation.navigate('UpdateLogScreen', {
+				updates: update$.get(),
+			});
+
+			update$.set([]);
 		} catch (e) {
-			update$.set(`Error else:  + ${JSON.stringify(e, null, 2)}`);
+			update$.push(`Error: ${JSON.stringify(e, null, 2)}`);
 
-			await wait(2);
+			navigation.navigate('UpdateLogScreen', {
+				updates: update$.get(),
+			});
 
-			update$.set('');
+			update$.set([]);
 		}
 	};
 
@@ -142,7 +127,7 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 
 	return (
 		<Screen>
-			{update$.get() && <LoadingOverlay text={update$.get()} />}
+			{!!update$.length && <LoadingOverlay text='Getting your update' />}
 
 			<FlatList
 				refreshing={false}
