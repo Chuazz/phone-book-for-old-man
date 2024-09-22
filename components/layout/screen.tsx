@@ -85,9 +85,7 @@ const Screen = observer(
 						paddingHorizontal: 12,
 					}}
 				>
-					<Text sx={{ color: 'white' }}>
-						{Constants.manifest2?.runtimeVersion}
-					</Text>
+					<Text sx={{ color: 'white' }}>{Constants.expoConfig?.version}</Text>
 				</View>
 			</View>
 		);

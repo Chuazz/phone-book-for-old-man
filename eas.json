@@ -11,7 +11,7 @@
 		"preview": {
 			"distribution": "internal",
 			"env": {
-				"EAS_LOCAL_BUILD_SKIP_CLEANUP": "1"
+				"EAS_LOCAL_BUILD_SKIP_CLEANUP": "0"
 			}
 		},
 		"production": {

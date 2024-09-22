@@ -11,7 +11,7 @@ const UpdateLogScreen = ({ route }: ScreenProps<'UpdateLogScreen'>) => {
 		<Screen>
 			<ScreenHeader />
 
-			<ScrollView sx={{ padding: 'md', paddingBottom: 80 }}>
+			<ScrollView contentContainerSx={{ padding: 'md', paddingBottom: 50 }}>
 				{updates.map((t) => (
 					<Fragment key={t}>
 						<Text>{t}</Text>
