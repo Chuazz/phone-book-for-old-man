@@ -8,7 +8,7 @@
     "ios": "expo run:ios",
     "android": "expo run:android",
     "android:eas-build": "rm -f ./builds/android.managed.apk; eas build --profile=preview -p android --output=./builds/android.managed.apk --local",
-    "android:install": "cd ./android && ./gradlew uninstallAll && cd ../ && adb install ./builds/android.managed.apk",
+    "android:install": "adb install ./builds/android.managed.apk",
     "android:publish": "./publish.sh",
     "connect:localhost": "adb reverse tcp:3000 tcp:3000 && adb reverse tcp:4000 tcp:4000 ",
     "android:build": "yarn android:publish && yarn android:eas-build && yarn connect:localhost && yarn android:install"

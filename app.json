@@ -51,13 +51,13 @@
 			}
 		},
 		"owner": "chuazz",
-		"runtimeVersion": "0.0.1",
+		"runtimeVersion": "0.0.2",
 		"updates": {
 			"url": "http://localhost:3000/api/manifest?project=phone-book-for-old-man&channel=staging",
 			"enabled": true,
 			"checkAutomatically": "ON_ERROR_RECOVERY",
 			"fallbackToCacheTimeout": 0,
-			"codeSigningCertificate": "../../../../../../home/chuazz/Workspace/freetime/phone-book-for-old-man/code-signing/certificate.pem",
+			"codeSigningCertificate": "./code-signing/certificate.pem",
 			"codeSigningMetadata": {
 				"keyid": "main",
 				"alg": "rsa-v1_5-sha256"

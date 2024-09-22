@@ -20,20 +20,7 @@ const wait = async (seconds: number) =>
 	new Promise((resolve) => setTimeout(resolve, seconds * 1000));
 
 const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
-	const contacts$ = useObservable<Contact[]>(
-		__DEV__
-			? [
-					{
-						displayName: 'hendson',
-						phoneNumbers: [{ number: '123213123123', label: 'home' }],
-					},
-					{
-						displayName: 'jaden',
-						phoneNumbers: [{ number: '238947823764', label: 'home' }],
-					},
-				]
-			: [],
-	);
+	const contacts$ = useObservable<Contact[]>([]);
 	const allContacts$ = useObservable<Contact[][]>([]);
 	const runOnce = useRef(false);
 	const keywords = useObservable('');
@@ -102,7 +89,9 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 
 			const upd = await checkForUpdateAsync();
 
-			update$.set(`update Available? ${upd.isAvailable} - JSON.stringify(upd)`);
+			update$.set(
+				`update Available? ${upd.isAvailable} - ${JSON.stringify(upd, null, 2)}`,
+			);
 
 			await wait(2);
 
@@ -113,24 +102,26 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 
 				try {
 					const fetched = await fetchUpdateAsync();
+
 					update$.set(
-						`Update fetched? ${fetched.isNew} - ${JSON.stringify(fetched)}`,
+						`Update fetched? ${fetched.isNew} - ${JSON.stringify(fetched, null, 2)}`,
 					);
 
 					await wait(2);
 
 					update$.set('');
 				} catch (e) {
-					update$.set(`Error fetching update:  + ${e}`);
+					update$.set(
+						`Error fetching update:  + ${JSON.stringify(e, null, 2)}`,
+					);
 
 					await wait(2);
 
 					update$.set('');
 				}
-			} else {
 			}
 		} catch (e) {
-			update$.set(`Error else:  + ${e}`);
+			update$.set(`Error else:  + ${JSON.stringify(e, null, 2)}`);
 
 			await wait(2);
 
