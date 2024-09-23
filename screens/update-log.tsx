@@ -43,7 +43,6 @@ const UpdateLogScreen = observer(
 				});
 
 				loading$.set(false);
-				update$.set([]);
 			} catch (e) {
 				update$.push(`Error: ${JSON.stringify(e, null, 2)}`);
 
@@ -52,7 +51,6 @@ const UpdateLogScreen = observer(
 				});
 
 				loading$.set(false);
-				update$.set([]);
 			}
 		};
 
