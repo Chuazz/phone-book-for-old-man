@@ -2,14 +2,14 @@
 	"expo": {
 		"owner": "chuazz",
 		"name": "Danh bạ nè",
-		"version": "0.0.4",
 		"slug": "phone-book-for-old-man",
 		"orientation": "portrait",
 		"icon": "./assets/icons/ic_app_logo.png",
 		"scheme": "phone-book-for-old-man",
 		"assetBundlePatterns": ["**/*"],
 		"userInterfaceStyle": "automatic",
-		"runtimeVersion": "0.0.5",
+		"version": "0.0.6",
+		"runtimeVersion": "0.0.6",
 		"updates": {
 			"url": "http://localhost:3000/api/manifest?project=phone-book-for-old-man&channel=staging",
 			"enabled": true,
