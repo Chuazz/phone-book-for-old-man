@@ -60,9 +60,9 @@ const UpdateLogScreen = observer(
 			<Screen>
 				{loading$.get() && <LoadingOverlay text='Getting your update' />}
 
-				<ScreenHeader />
-
 				<ScrollView contentContainerSx={{ padding: 'md', paddingBottom: 50 }}>
+					<ScreenHeader />
+
 					{update$.get().map((t) => (
 						<Fragment key={t}>
 							<Text>{t}</Text>

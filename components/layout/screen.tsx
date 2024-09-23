@@ -1,15 +1,15 @@
+import type { image } from '@/assets';
 import { bottomSheet$ } from '@/stores/bottom-sheet';
+import type { RouteStackParamsList } from '@/types/routes';
 import { observer, useEffectOnce } from '@legendapp/state/react';
 import type { NavigationProp } from '@react-navigation/native';
 import { type SxProp, Text, View } from 'dripsy';
+import { runtimeVersion } from 'expo-updates';
 import { type ReactNode, useEffect } from 'react';
 import { BackHandler, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from '../ui/image';
-import type { RouteStackParamsList } from '@/types/routes';
-import type { image } from '@/assets';
 import { LoadingOverlay } from './loading-overlay';
-import Constants from 'expo-constants';
 
 type ScreenProps = {
 	children: ReactNode;
@@ -85,7 +85,7 @@ const Screen = observer(
 						paddingHorizontal: 12,
 					}}
 				>
-					<Text sx={{ color: 'white' }}>{Constants.expoConfig?.version}</Text>
+					<Text sx={{ color: 'white' }}>{runtimeVersion}</Text>
 				</View>
 			</View>
 		);
