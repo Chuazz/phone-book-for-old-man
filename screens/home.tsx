@@ -13,7 +13,7 @@ import _ from 'lodash';
 import { useRef } from 'react';
 import { FlatList, PermissionsAndroid, TouchableOpacity } from 'react-native';
 import Contacts, { type Contact } from 'react-native-contacts';
-import { checkForUpdateAsync, fetchUpdateAsync } from 'expo-updates';
+import { channel, checkForUpdateAsync, fetchUpdateAsync } from 'expo-updates';
 import { LoadingOverlay } from '@/components/layout/loading-overlay';
 
 const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
@@ -96,6 +96,8 @@ const HomeScreen = observer(({ navigation }: ScreenProps<'HomeScreen'>) => {
 				update$.push(
 					`Update fetched? ${fetched.isNew} - ${JSON.stringify(fetched, null, 2)}`,
 				);
+			} else {
+				update$.push(`App Ready on ${channel}`);
 			}
 
 			navigation.navigate('UpdateLogScreen', {

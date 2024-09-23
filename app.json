@@ -8,8 +8,8 @@
 		"scheme": "phone-book-for-old-man",
 		"assetBundlePatterns": ["**/*"],
 		"userInterfaceStyle": "automatic",
-		"version": "0.0.2",
-		"runtimeVersion": "0.0.2",
+		"version": "0.0.1",
+		"runtimeVersion": "0.0.1",
 		"updates": {
 			"url": "http://localhost:3000/api/manifest?project=phone-book-for-old-man&channel=staging",
 			"enabled": true,
