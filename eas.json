@@ -10,12 +10,19 @@
 		},
 		"preview": {
 			"distribution": "internal",
+			"releaseChannel": "main",
 			"env": {
 				"EAS_LOCAL_BUILD_SKIP_CLEANUP": "0"
+			},
+			"android": {
+				"buildType": "apk"
 			}
 		},
 		"production": {
-			"autoIncrement": true
+			"releaseChannel": "main",
+			"android": {
+				"buildType": "app-bundle"
+			}
 		}
 	},
 	"submit": {
