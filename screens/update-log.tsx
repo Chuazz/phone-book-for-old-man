@@ -6,11 +6,16 @@ import { app$ } from '@/stores';
 import type { ScreenProps } from '@/types';
 import { observer, useObservable } from '@legendapp/state/react';
 import { ScrollView, Text, View } from 'dripsy';
-import { checkForUpdateAsync, fetchUpdateAsync } from 'expo-updates';
+import {
+	channel,
+	checkForUpdateAsync,
+	fetchUpdateAsync,
+	reloadAsync,
+} from 'expo-updates';
 import { Fragment } from 'react/jsx-runtime';
 
 const UpdateLogScreen = observer(
-	({ route, navigation }: ScreenProps<'UpdateLogScreen'>) => {
+	({ route }: ScreenProps<'UpdateLogScreen'>) => {
 		const { updates } = route.params;
 		const update$ = useObservable<string[]>(updates);
 		const loading$ = useObservable<boolean>(false);
@@ -36,23 +41,15 @@ const UpdateLogScreen = observer(
 					update$.push(
 						`Update fetched? ${fetched.isNew} - ${JSON.stringify(fetched, null, 2)}`,
 					);
+				} else {
+					update$.push(`App Ready on ${channel}`);
 				}
 
-				navigation.navigate('UpdateLogScreen', {
-					updates: update$.get(),
-				});
-
 				loading$.set(false);
-				update$.set([]);
 			} catch (e) {
 				update$.push(`Error: ${JSON.stringify(e, null, 2)}`);
 
-				navigation.navigate('UpdateLogScreen', {
-					updates: update$.get(),
-				});
-
 				loading$.set(false);
-				update$.set([]);
 			}
 		};
 
@@ -60,9 +57,9 @@ const UpdateLogScreen = observer(
 			<Screen>
 				{loading$.get() && <LoadingOverlay text='Getting your update' />}
 
-				<ScreenHeader />
-
 				<ScrollView contentContainerSx={{ padding: 'md', paddingBottom: 50 }}>
+					<ScreenHeader />
+
 					{update$.get().map((t) => (
 						<Fragment key={t}>
 							<Text>{t}</Text>
@@ -92,6 +89,16 @@ const UpdateLogScreen = observer(
 							height: app$.font.get(),
 						}}
 						onPress={onUpdate}
+					/>
+
+					<Button
+						rightIcon='SettingOutLineIcon'
+						schema='black'
+						iconSx={{
+							width: app$.font.get(),
+							height: app$.font.get(),
+						}}
+						onPress={() => reloadAsync()}
 					/>
 				</View>
 			</Screen>

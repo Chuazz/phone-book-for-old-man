@@ -9,7 +9,7 @@
     "android:install": "adb install ./builds/android.managed.apk",
     "android:publish": "./publish.sh",
     "connect:localhost": "adb reverse tcp:3000 tcp:3000 && adb reverse tcp:4000 tcp:4000 ",
-    "android:build": "yarn android:publish && yarn android:eas-build && yarn connect:localhost && yarn android:install"
+    "android:build": "yarn android:publish && yarn android:eas-build && yarn connect:localhost"
   },
   "dependencies": {
     "@biomejs/biome": "1.8.3",
