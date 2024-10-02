@@ -1,6 +1,6 @@
 RELEASECHANNEL="staging"
 UPLOADKEY="abc123def456"
-APISERVER="http://localhost:3000"
+APISERVER="http://157.66.101.16:3000"
 
 SLUG=$(grep -o '"slug": "[^"]*' app.json | grep -o '[^"]*$')
 RUNTIMEVERSION=$(grep -o '"runtimeVersion": "[^"]*' app.json | grep -o '[^"]*$')
